@@ -12,36 +12,64 @@
   <link href="assets/img/favicon.png" rel="icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="css/backgroud.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
-
+  <link href="css/buttoms.css" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="d-flex align-items-center">
-    <div class="container d-flex flex-column align-items-center">
+<div class="white">
+  <header>
+    <div class="header">
+      <h1>ImgFeature</h1>
+    </div>
+  </header>
 
-      <h1>ImgeFeature</h1>
-      <h2>Extrae las caracteristicas de las imagenes</h2>
-
-  </header><!-- End #header -->
-
-  <main id="main">
-
+  <div class="squares">
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+  </div>
+  <div class="container-inline">
     <div class="drag-area">
-      <h2>Arrastra y suelta tus imagenes aqui</h2>
+      <h2>Arrastra y suelta tu imagen aquí</h2>
       <span>o</span>
-      <button>Selecciona tus imagenes</button>
+      <button>Selecciona tu imagene</button>
       <input type="file" hidden multiple/>
     </div>
-    
-  </main><!-- End #main -->
+    <canvas class="canvas hidden" ></canvas>
+    <button class="button-shrink hidden">✖️</button>
+  </div>
 
+  <div class="panel">
+    <h3>Configuración</h3>
+    <label for="tentacles">Grid</label>
+    <input type="number" id="tentacles" name="tentacles" min="10" max="100" value="60">
+    <label >px</label>
+    <select name="clase" id="clase">
+      <option value="-1">Nada   -1</option>
+      <option value="0">Humo     0</option>
+      <option value="1">Fuego    1</option>
+    </select>
+    <label class="lbl-Preview">Preview</label>
+    <canvas class="canvas2" ></canvas>
+    <p class="features"></p>
+    <canvas class="canvas3 hidden" ></canvas>
+    <button class="btn-63"><span>Descargar CSV</span></button>
+  </div>
+
+</div>
+
+        
   <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="container">
@@ -56,9 +84,11 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <!-- Librarys JS File -->
+  <script src="//cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js" ></script>
 
   <!-- Main JS File -->
-  <script src="js/main.js"></script>
+  <script src="js/app.js" type="module"></script>
 
 </body>
 
