@@ -1,5 +1,7 @@
-const d = document;
 import  arrayObjToCsv  from './generateCsv.js';
+import gBlur from './blur.js';
+
+const d = document;
 
 export default function uploadFile(container,canvas,button,panel){
 	const $dropArea = d.querySelector(container);
@@ -14,10 +16,13 @@ export default function uploadFile(container,canvas,button,panel){
 	const $ctx2 = $canvas2.getContext("2d");
 	const $canvas3 = d.querySelector(".canvas3");
 	const $ctx3 = $canvas3.getContext("2d");
+	const $canvas4 = d.querySelector(".canvas4");
+	const $ctx4 = $canvas4.getContext("2d");
 
 	const $panel = d.querySelector(panel);
 	const $btnDownload = d.querySelector(".btn-63");
 	const $grid = $panel.querySelector("#tentacles");
+	const $gblur = $panel.querySelector("#gblur");
 	const $clase = $panel.querySelector("#clase");
 	const $features = $panel.querySelector(".features");
 
@@ -96,6 +101,7 @@ export default function uploadFile(container,canvas,button,panel){
 	}
 
 	const reload = () => {
+				$ctx.filter = 'blur(5px)';
 			img.onload = () => {
 				$canvas.width = img.width;
 				$canvas.height = img.height;
@@ -105,18 +111,13 @@ export default function uploadFile(container,canvas,button,panel){
 				$canvas3.height = img.height;
 				$ctx3.drawImage(img,0,0);
 
-				$ctx.beginPath();
-				for(let i = 0; i < img.width; i+=parseInt($grid.value)){
-					$ctx.moveTo(i, 0);
-					$ctx.lineTo(i,img.height);
-				}
-				for(let i = 0; i < img.height; i+=parseInt($grid.value)){
-					$ctx.moveTo(0, i);
-					$ctx.lineTo(img.width,i);
-				}
-    		$ctx.stroke();
+				$canvas4.width = img.width;
+				$canvas4.height = img.height;
+				$ctx4.drawImage(img,0,0);
+				gridupdate();
 			}
 			img.src = fileurl;
+
 	}
 
 	$btnQuit.addEventListener("click", (e) => {
@@ -124,7 +125,9 @@ export default function uploadFile(container,canvas,button,panel){
 		$dropArea.classList.remove("hidden");
 		$canvas.classList.add("hidden");
 		$btnQuit.classList.add("hidden");
+		$gblur.value = 0;
 	});
+
 
 	d.addEventListener("click", e => {
 		if(e.target==$canvas){
@@ -146,8 +149,6 @@ export default function uploadFile(container,canvas,button,panel){
 			$ctx2.clearRect(0,0,$canvas2.width,$canvas2.height);
 			preview();
 
-			console.log(jStat.mean(Rarray));
-			
 			arrCSV.push({
 				MEANR: jStat.mean(Rarray),
 				STDEVR: jStat.stdev(Rarray),
@@ -197,7 +198,35 @@ export default function uploadFile(container,canvas,button,panel){
 			Barray.push(section[i + 2]);
 		}
 		$ctx2.putImageData(imgData2, 120, 0);
+
 	}
+
+	const gridupdate = () => {
+				$ctx.beginPath();
+				for(let i = 0; i < img.width; i+=parseInt($grid.value)){
+					$ctx.moveTo(i, 0);
+					$ctx.lineTo(i,img.height);
+				}
+				for(let i = 0; i < img.height; i+=parseInt($grid.value)){
+					$ctx.moveTo(0, i);
+					$ctx.lineTo(img.width,i);
+				}
+    		$ctx.stroke();	
+
+	};
+
+
+	$gblur.addEventListener("change", (e) => {
+		e.preventDefault();
+			$ctx.drawImage($canvas4,0,0);
+			gridupdate();
+			$ctx3.drawImage($canvas4,0,0);
+		if(parseInt($gblur.value) > 0 && parseInt($gblur.value) < 10){
+			gBlur(parseInt($gblur.value),$canvas3,$ctx);
+			gridupdate();
+			gBlur(parseInt($gblur.value),$canvas3,$ctx3);
+		}
+	});
 
 
 }
