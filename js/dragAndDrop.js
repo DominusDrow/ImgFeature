@@ -1,5 +1,7 @@
 import  arrayObjToCsv  from './generateCsv.js';
 import gBlur from './blur.js';
+import coOcurren from './coOcurren.js';
+import { max } from './coOcurren.js';
 
 const d = document;
 
@@ -33,12 +35,14 @@ export default function uploadFile(container,canvas,button,panel){
 	let ClientRect = null;
 	let myImageData = null;
 	let section = null;
+	let imgData2; 
 
 	let Rarray = [];
 	let Garray = [];
 	let Barray = [];
 
 	let arrCSV = [];
+	let grayScale;
 
 	$grid.addEventListener("change", e => {
 		e.preventDefault();
@@ -173,6 +177,10 @@ export default function uploadFile(container,canvas,button,panel){
 
 				CLASS: $clase.value
 			});
+
+ /*     let scale = max(aux) + 1;*/
+			/*console.log(coOcurren(aux,1,90,scale));*/
+
 			
 			$features.innerHTML = `RED layer<br>mean = ${jStat.mean(Rarray)}<br>stdev = ${jStat.stdev(Rarray)}<br>range = ${jStat.range(Rarray)}<br>skewness = ${jStat.skewness(Rarray)}<br>kurtosis = ${jStat.kurtosis(Rarray)}<br>coeffvar = ${jStat.coeffvar(Rarray)}`;
 
@@ -186,8 +194,12 @@ export default function uploadFile(container,canvas,button,panel){
 
 
 	const preview = () => {
-		let imgData2 = $ctx2.createImageData(parseInt($grid.value),parseInt($grid.value));
+		let gray = 0;
+		let arrAux = [];
+		grayScale = jStat.zeros(parseInt($grid.value));
+		imgData2 = $ctx2.createImageData(parseInt($grid.value),parseInt($grid.value));
 		for (let i = 0; i < imgData2.data.length; i += 4) {
+
 		  imgData2.data[i + 0] = section[i + 0];
 		  imgData2.data[i + 1] = section[i + 1];
 	 		imgData2.data[i + 2] = section[i + 2];
@@ -196,6 +208,17 @@ export default function uploadFile(container,canvas,button,panel){
 			Rarray.push(section[i + 0]);
 			Garray.push(section[i + 1]);
 			Barray.push(section[i + 2]);
+
+			gray = 0.33*section[i]+0.5*section[i+1]+0.15*section[i+2];
+			arrAux.push(gray);
+
+			if(((i/4)+1) % parseInt($grid.value) == 0 ){
+
+				for(let j = 0; j < parseInt($grid.value); j++)
+					grayScale[(((i/4)+1) / parseInt($grid.value))-1][j]=arrAux[j];
+
+				arrAux = [];
+			}
 		}
 		$ctx2.putImageData(imgData2, 120, 0);
 
@@ -227,6 +250,7 @@ export default function uploadFile(container,canvas,button,panel){
 			gBlur(parseInt($gblur.value),$canvas3,$ctx3);
 		}
 	});
+
 
 
 }
