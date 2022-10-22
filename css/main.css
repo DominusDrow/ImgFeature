@@ -22,13 +22,21 @@ header{
 
 }
 
-.panel h3{
-  padding: 0.5em;
+.panel h2{
   text-align: center;
+}
+
+.panel h4{
+  text-align: center;
+  margin: 0.3rem;
 }
 
 .container-inline{
   display: inline-block;
+}
+
+input{
+  width: 50%;
 }
 
 .canvas{
@@ -40,7 +48,7 @@ header{
 
 .canvas2{
   position: absolute;
-  top: 250px;
+  top: 401px;
   
 }
 
@@ -147,6 +155,11 @@ select {
   left: 20%;
   margin-bottom: 20%;
   font-size: 0.8em;
+}
+
+.clases{
+  text-align: center;
+
 }
 
 

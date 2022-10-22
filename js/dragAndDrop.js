@@ -1,4 +1,4 @@
-import  arrayObjToCsv  from './generateCsv.js';
+import arrayObjToCsv  from './generateCsv.js';
 import gBlur from './blur.js';
 import coOcurren from './coOcurren.js';
 import { max,energy,contrast,entropy } from './coOcurren.js';
@@ -27,6 +27,10 @@ export default function uploadFile(container,canvas,button,panel){
 	const $gblur = $panel.querySelector("#gblur");
 	const $clase = $panel.querySelector("#clase");
 	const $features = $panel.querySelector(".features");
+	const $distancia = $panel.querySelector("#distance");
+	const $angulo = $panel.querySelector("#angulo");
+	const $clases = $panel.querySelector(".clases");
+
 
 	const img = new Image();
 	let fileurl = null; 
@@ -43,6 +47,10 @@ export default function uploadFile(container,canvas,button,panel){
 
 	let arrCSV = [];
 	let grayScale;
+
+	let humo = 0;
+	let fuego = 0;
+	let nada = 0;
 
 	$grid.addEventListener("change", e => {
 		e.preventDefault();
@@ -154,9 +162,10 @@ export default function uploadFile(container,canvas,button,panel){
 
 			$ctx2.clearRect(0,0,$canvas2.width,$canvas2.height);
 			preview();
-
+			let distanciaAux = parseInt($distancia.value);
+			let anguloAux = parseInt($angulo.value);
 			scale = Math.round(max(grayScale)) + 1;
-			coOcurrence = coOcurren(grayScale,3,90,scale);
+			coOcurrence = coOcurren(grayScale,distanciaAux,anguloAux,scale);
 
 			arrCSV.push({
 				MEANR: jStat.mean(Rarray),
@@ -187,6 +196,18 @@ export default function uploadFile(container,canvas,button,panel){
 				CLASS: $clase.value
 			});
 
+			if($clase.value == "1")
+				fuego ++;
+			else if($clase.value == "0")
+				humo ++;
+			else if($clase.value == "-1")
+				nada ++;
+
+			$clases.innerHTML = `
+				Fuego: ${fuego}&nbsp;&nbsp;
+				Humo: ${humo}&nbsp;&nbsp;
+				Nada: ${nada}&nbsp;&nbsp;
+			`;
 			
 			$features.innerHTML = `RED layer<br>mean = ${jStat.mean(Rarray)}<br>stdev = ${jStat.stdev(Rarray)}<br>range = ${jStat.range(Rarray)}<br>skewness = ${jStat.skewness(Rarray)}<br>kurtosis = ${jStat.kurtosis(Rarray)}<br>coeffvar = ${jStat.coeffvar(Rarray)}<br>energy = ${energy(coOcurrence)}<br>entropy = ${entropy(coOcurrence)}<br>contrast = ${contrast(coOcurrence)}`;
 

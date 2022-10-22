@@ -51,19 +51,27 @@
   </div>
 
   <div class="panel">
-    <h3>Configuración</h3>
+    <h2>Configuración</h2>
+    <h4>Imagen</h4>
     <label for="tentacles">Grid</label>
-    <input type="number" id="tentacles" name="tentacles" min="10" max="100" value="60">
+    <input type="number" id="tentacles" name="tentacles" min="10" max="100" value="30">
     <label >px</label>
     <label for="gblur">Blur</label>
-    <input type="text" id="gblur" name="gblur" min="0" max="10" value="0">
+    <input type="number" id="gblur" name="gblur" min="0" max="10" >
     <label >px</label>
+    <h4>co ocurrence matrix</h4>
+    <label for="distane">distanc</label>
+    <input type="number" id="distance" name="distance" max="10" value="3">
+    <label for="angulo">angulo</label>
+    <input type="number" id="angulo" name="angulo" value="90">
+    <h4>clase</h4>
     <select name="clase" id="clase">
       <option value="-1">Nada   -1</option>
       <option value="0">Humo     0</option>
       <option value="1">Fuego    1</option>
     </select>
-    <label class="lbl-Preview">Preview</label>
+    <p class="clases"></p>
+    <h4>preview</h4>
     <canvas class="canvas2" ></canvas>
     <p class="features"></p>
     <canvas class="canvas3 hidden" ></canvas>
