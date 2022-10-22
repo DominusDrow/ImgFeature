@@ -1,7 +1,7 @@
 import  arrayObjToCsv  from './generateCsv.js';
 import gBlur from './blur.js';
 import coOcurren from './coOcurren.js';
-import { max } from './coOcurren.js';
+import { max,energy,contrast,entropy } from './coOcurren.js';
 
 const d = document;
 
@@ -134,6 +134,8 @@ export default function uploadFile(container,canvas,button,panel){
 
 
 	d.addEventListener("click", e => {
+		let scale = 0;
+		let coOcurrence = null;
 		if(e.target==$canvas){
 			ClientRect = $canvas.getBoundingClientRect();
 			mousePos.x = Math.round(e.clientX - ClientRect.left);
@@ -152,6 +154,9 @@ export default function uploadFile(container,canvas,button,panel){
 
 			$ctx2.clearRect(0,0,$canvas2.width,$canvas2.height);
 			preview();
+
+			scale = Math.round(max(grayScale)) + 1;
+			coOcurrence = coOcurren(grayScale,3,90,scale);
 
 			arrCSV.push({
 				MEANR: jStat.mean(Rarray),
@@ -175,14 +180,15 @@ export default function uploadFile(container,canvas,button,panel){
 				KURTOSISB: jStat.kurtosis(Barray),
 				CV_B: jStat.coeffvar(Barray),
 
+				ENERGY: energy(coOcurrence),
+				ENTROPY: entropy(coOcurrence),
+				CONTRAST: contrast(coOcurrence),
+
 				CLASS: $clase.value
 			});
 
- /*     let scale = max(aux) + 1;*/
-			/*console.log(coOcurren(aux,1,90,scale));*/
-
 			
-			$features.innerHTML = `RED layer<br>mean = ${jStat.mean(Rarray)}<br>stdev = ${jStat.stdev(Rarray)}<br>range = ${jStat.range(Rarray)}<br>skewness = ${jStat.skewness(Rarray)}<br>kurtosis = ${jStat.kurtosis(Rarray)}<br>coeffvar = ${jStat.coeffvar(Rarray)}`;
+			$features.innerHTML = `RED layer<br>mean = ${jStat.mean(Rarray)}<br>stdev = ${jStat.stdev(Rarray)}<br>range = ${jStat.range(Rarray)}<br>skewness = ${jStat.skewness(Rarray)}<br>kurtosis = ${jStat.kurtosis(Rarray)}<br>coeffvar = ${jStat.coeffvar(Rarray)}<br>energy = ${energy(coOcurrence)}<br>entropy = ${entropy(coOcurrence)}<br>contrast = ${contrast(coOcurrence)}`;
 
 			Rarray = [];
 			Garray = [];
@@ -210,7 +216,7 @@ export default function uploadFile(container,canvas,button,panel){
 			Barray.push(section[i + 2]);
 
 			gray = 0.33*section[i]+0.5*section[i+1]+0.15*section[i+2];
-			arrAux.push(gray);
+			arrAux.push(Math.round(gray * 10) / 10);
 
 			if(((i/4)+1) % parseInt($grid.value) == 0 ){
 
