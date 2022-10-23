@@ -48,7 +48,7 @@ input{
 
 .canvas2{
   position: absolute;
-  top: 450px;
+  top: 530px;
   
 }
 
@@ -153,8 +153,8 @@ select {
   display: block;
   top: 60%;
   left: 20%;
-  margin-bottom: 20%;
   font-size: 0.8em;
+  margin-top: 30%;
 }
 
 .clases{
