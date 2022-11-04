@@ -1,9 +1,3 @@
-header{
-  position: absolute;
-	justify-content: center;
-  z-index: 100;
-  left:43%;
-}
 
 .panel{
   background: rgba( 255, 255, 255, 0.16 );
@@ -33,10 +27,6 @@ header{
 
 .container-inline{
   display: inline-block;
-}
-
-input{
-  width: 50%;
 }
 
 .canvas{
@@ -121,11 +111,6 @@ input{
 }
 
 
-label {
-    display: block-inline;
-    font: 1rem 'Fira Sans', sans-serif;
-}
-
 .lbl-Preview{
     display: block;
     font: 1rem 'Fira Sans', sans-serif;
@@ -140,8 +125,7 @@ label {
 }
 
 select {
-    margin-right : 7%;
-    margin-left: 7%;
+    margin-right : 50%;
     margin-bottom: 1rem;
     margin-top: 1rem;
     display: block;
