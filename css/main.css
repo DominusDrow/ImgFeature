@@ -128,8 +128,8 @@ select {
     margin-right : 50%;
     margin-bottom: 1rem;
     margin-top: 1rem;
-    display: block;
-    width: 86%;
+    display: inline;
+    width: 80%;
 }
 
 .features{
