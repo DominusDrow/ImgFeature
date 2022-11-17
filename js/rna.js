@@ -139,7 +139,7 @@ export default function uploadFile(container,canvas,button,panel){
 							]
 						]
 					}
-			
+					console.log("hola")
 					
 					postData('https://web-production-151d.up.railway.app/predecir', jsonPost)
 					.then(data => {
