@@ -144,6 +144,7 @@ export default function uploadFile(container,canvas,button,panel){
 					postData('https://web-production-151d.up.railway.app/predecir', jsonPost)
 					.then(data => {
 						respuesta.push(parseInt(data[0]));
+						d.querySelector(".loader").classList.add("hidden");
 					});
 					
 					Rarray = [];
@@ -207,6 +208,7 @@ export default function uploadFile(container,canvas,button,panel){
 
 // Example POST method implementation:
 async function postData(url = '', data = {}) {
+	d.querySelector(".loader").classList.remove("hidden");
 	// Default options are marked with *
 	const response = await fetch(url, {
 	  method: 'POST', // *GET, POST, PUT, DELETE, etc.
